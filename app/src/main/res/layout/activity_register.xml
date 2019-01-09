@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:layout_centerHorizontal="true"
+            android:text="Créer un compte"/>
+
+        <EditText
+            android:layout_below="@id/titre"
+            android:id="@+id/nom"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="nom"/>
+
+        <EditText
+            android:id="@+id/prenom"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nom"
+            android:hint="prenom"/>
+
+        <EditText
+            android:id="@+id/adresse"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prenom"
+            android:hint="adresse"/>
+
+        <EditText
+            android:id="@+id/telephone"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/adresse"
+            android:hint="telephone"/>
+
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/telephone"
+            android:hint="username"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:hint="password"/>
+
+        <Button
+            android:id="@+id/inscription"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:text="Inscription"/>
+
+
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
