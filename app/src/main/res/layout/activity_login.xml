@@ -1,48 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="311dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="300dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="username"/>
+            android:hint="email">
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="300dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableLeft="@drawable/ic_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionNext"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:inputType="textPassword"
-            android:hint="password"
-            />
-        <Button
+            app:passwordToggleEnabled="true"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawableLeft="@drawable/ic_lock"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionDone"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/connexion"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/password"
-            android:text="Connexion" />
-        <Button
-            android:id="@+id/inscription"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/connexion"
-            android:layout_alignParentRight="true"
-            android:background="@android:color/transparent"
-            android:text="inscrivez-vous"/>
-    </RelativeLayout>
+            android:layout_gravity="center_horizontal"
+            android:text="connexion"
+            android:minWidth="200dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="@color/colorAccent"
+            app:iconTint="@color/colorPrimary"
+            app:strokeColor="@color/colorPrimaryDark"
+            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/inscription"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:text="inscrivez-vous"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
     <!--<TextView-->
         <!---->
         <!--android:layout_width="wrap_content"-->
@@ -53,4 +94,4 @@
         <!--app:layout_constraintRight_toRightOf="parent"-->
         <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,4 +13,12 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="Theme.MobileNany" parent="Theme.MaterialComponents.Light">
+            <item name="hintTextAppearance">@style/TextAppearance.Design.Hint</item>
+            <item name="android:paddingBottom">8sp</item>
+    </style>
+    <!--<style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+        <!--<item name="hintTextAppearance">@style/TextAppearance.Design.Hint</item>-->
+        <!--<item name="android:paddingBottom">8dp</item>-->
+    <!--</style>-->
 </resources>
