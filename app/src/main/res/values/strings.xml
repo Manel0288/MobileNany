@@ -4,4 +4,11 @@
 
     <string name="navigation_drawer_open">Ouvrir le menu</string>
     <string name="navigation_drawer_close">Fermer le menu</string>
+
+    <string name="error_nom">Erreur nom</string>
+    <string name="error_prenom">Erreur prenom</string>
+    <string name="error_email">Erreur email</string>
+    <string name="error_adresse">Erreur adresse</string>
+    <string name="error_password">Erreur password</string>
+    <string name="error_telephone">Erreur telephone</string>
 </resources>

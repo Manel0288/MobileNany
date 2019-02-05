@@ -10,7 +10,11 @@ public interface ApiService {
     @POST("register")
     @FormUrlEncoded
     Call<AccessToken> register(@Field("nom") String nom, @Field("prenom") String prenom, @Field("email") String email,
-                               @Field("password") String password, @Field("adressse") String adresse, @Field("tel") String tel);
+                               @Field("password") String password, @Field("adresse") String adresse, @Field("tel") String tel);
+
+    @POST("login")
+    @FormUrlEncoded
+    Call<AccessToken> login(@Field("username") String username, @Field("password") String password);
 
 
 }
