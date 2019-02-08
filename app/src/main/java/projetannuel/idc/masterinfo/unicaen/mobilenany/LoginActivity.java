@@ -60,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
         setupRules();
+        if(tokenManager.getToken().getAccessToken() != null){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
 
     }
 

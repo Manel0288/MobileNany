@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_enfant"
             android:title="Lieux Visites"/>
 
+        <item android:id="@+id/nav_add_child"
+            android:icon="@drawable/ic_add_child"
+            android:title="Ajouter un enfant"/>
+
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="Profil"/>

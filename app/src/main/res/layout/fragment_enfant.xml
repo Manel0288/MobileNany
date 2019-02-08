@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <LinearLayout
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/child_titre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:text="Ajouter un enfant"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_nom"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="nom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="textPersonName"
+                android:drawableStart="@drawable/ic_profile"
+                android:drawableLeft="@drawable/ic_profile"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionNext"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_prenom"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="prenom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="textPersonName"
+                android:drawableStart="@drawable/ic_profile"
+                android:drawableLeft="@drawable/ic_profile"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:drawablePadding="10dp"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_adresse"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="adresse">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_domicile"
+                android:drawableLeft="@drawable/ic_domicile"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_tel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="telephone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="phone"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawableLeft="@drawable/ic_phone"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableLeft="@drawable/ic_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionNext"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/child_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawableLeft="@drawable/ic_lock"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionDone"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_btn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Ajouter"
+            android:minWidth="200dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="@color/colorAccent"
+            app:iconTint="@color/colorPrimary"
+            app:strokeColor="@color/colorPrimaryDark"
+            />
+    </LinearLayout>
+</RelativeLayout>

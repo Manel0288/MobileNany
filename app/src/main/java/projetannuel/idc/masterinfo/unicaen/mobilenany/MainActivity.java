@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.layout_container,
                     new LieuxFragment()).commit();
             break;
+
+        case R.id.nav_add_child:
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_container,
+                        new EnfantFragment()).commit();
+            break;
         case R.id.nav_deconnexion:
             //getSupportFragmentManager().beginTransaction().r
             Toast.makeText(this, "Ecran de deconnexion",Toast.LENGTH_SHORT ).show();

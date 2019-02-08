@@ -69,6 +69,10 @@ public class RegisterActivity extends AppCompatActivity {
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
         tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
         setupRules();
+        if(tokenManager.getToken().getAccessToken() != null){
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     @OnClick(R.id.register_btn)
@@ -91,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
         validator.clear();
 
         if (validator.validate()){
-            Log.w(TAG, "onTest " + adresse);
             call = service.register(nom, prenom, email, password, adresse, tel);
             call.enqueue(new Callback<AccessToken>() {
                 @Override
