@@ -4,13 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Child implements Parcelable {
-    private long id;
+    private int id;
     private String nom;
     private String prenom;
     private String email;
     private String adresse;
     private String tel;
 
+    public Child(int id, String nom, String prenom, String email, String adresse, String tel){
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.adresse = adresse;
+        this.tel = tel;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -32,7 +40,7 @@ public class Child implements Parcelable {
         this.tel = tel;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -58,7 +66,7 @@ public class Child implements Parcelable {
 
     // Parcelling part
     public Child(Parcel in){
-        this.id = in.readLong();
+        this.id = in.readInt();
         this.nom = in.readString();
         this.prenom =  in.readString();
         this.email = in.readString();
@@ -72,7 +80,7 @@ public class Child implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+        dest.writeInt(this.id);
         dest.writeString(this.nom);
         dest.writeString(this.prenom);
         dest.writeString(this.email);

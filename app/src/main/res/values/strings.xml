@@ -5,10 +5,14 @@
     <string name="navigation_drawer_open">Ouvrir le menu</string>
     <string name="navigation_drawer_close">Fermer le menu</string>
 
-    <string name="error_nom">Erreur nom</string>
-    <string name="error_prenom">Erreur prenom</string>
-    <string name="error_email">Erreur email</string>
-    <string name="error_adresse">Erreur adresse</string>
-    <string name="error_password">Erreur password</string>
-    <string name="error_telephone">Erreur telephone</string>
+    <string name="error_nom">The nom field is required</string>
+    <string name="error_prenom">The prenom field is required</string>
+    <string name="error_email">The email field is required</string>
+    <string name="error_adresse">The adresse field is required</string>
+    <string name="error_password">The password field is required</string>
+    <string name="error_telephone">The tel field is required</string>
+
+    <string name="API_KEY">AIzaSyA7CSZgCtdb2pChhR_2ia8-8aVNqr8MDm4</string>
+    <string name="category1">Autorisé</string>
+    <string name="category2">Non Autorisé</string>
 </resources>

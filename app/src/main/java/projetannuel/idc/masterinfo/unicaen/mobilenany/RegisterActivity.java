@@ -69,10 +69,10 @@ public class RegisterActivity extends AppCompatActivity {
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
         tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
         setupRules();
-        if(tokenManager.getToken().getAccessToken() != null){
-            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-            finish();
-        }
+//        if(tokenManager.getToken().getAccessToken() != null){
+//            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+//            finish();
+//        }
     }
 
     @OnClick(R.id.register_btn)

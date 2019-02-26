@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <LinearLayout
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/lieu_titre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:text="Ajouter un lieu"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Label">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_label"
+                android:drawableLeft="@drawable/ic_label"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:imeOptions="actionNext"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/adresse"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adresse">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:inputType="textAutoComplete"
+                android:drawableStart="@drawable/ic_home"
+                android:drawableLeft="@drawable/ic_home"
+                android:maxLines="3"
+                android:imeOptions="actionNext"
+                android:drawablePadding="10dp"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/category"-->
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Categorie">-->
+
+            <!--<com.google.android.material.textfield.TextInputEditText-->
+                <!--android:layout_width="300dp"-->
+                <!--android:inputType="text"-->
+                <!--android:drawableStart="@drawable/ic_category"-->
+                <!--android:drawableLeft="@drawable/ic_category"-->
+                <!--android:maxLines="1"-->
+                <!--android:drawablePadding="10dp"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+           <!---->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/label_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category:"/>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@+id/label_category">
+                <RadioButton android:id="@+id/radio_cat1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category1"
+                    android:checked="true"/>
+                <RadioButton android:id="@+id/radio_cat2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category2"/>
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <Spinner
+            android:id="@+id/liste_enfants"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content" />
+
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/longitude"-->
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Longitude">-->
+
+            <!--<com.google.android.material.textfield.TextInputEditText-->
+                <!--android:layout_width="300dp"-->
+                <!--android:inputType="numberDecimal|numberSigned"-->
+                <!--android:drawableStart="@drawable/ic_add_location"-->
+                <!--android:drawableLeft="@drawable/ic_add_location"-->
+                <!--android:maxLines="1"-->
+                <!--android:drawablePadding="10dp"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/latitude"-->
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Latitude">-->
+
+            <!--<com.google.android.material.textfield.TextInputEditText-->
+                <!--android:layout_width="300dp"-->
+                <!--android:drawableStart="@drawable/ic_add_location"-->
+                <!--android:drawableLeft="@drawable/ic_add_location"-->
+                <!--android:inputType="numberDecimal|numberSigned"-->
+                <!--android:maxLines="1"-->
+                <!--android:drawablePadding="10dp"-->
+                <!--android:imeOptions="actionNext"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_lieu_btn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Ajouter"
+            android:minWidth="200dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="@color/colorAccent"
+            app:iconTint="@color/colorPrimary"
+            app:strokeColor="@color/colorPrimaryDark"
+            />
+    </LinearLayout>
+</RelativeLayout>
