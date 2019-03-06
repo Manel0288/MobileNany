@@ -10,14 +10,16 @@ public class Child implements Parcelable {
     private String email;
     private String adresse;
     private String tel;
+    private String image_url;
 
-    public Child(int id, String nom, String prenom, String email, String adresse, String tel){
+    public Child(int id, String nom, String prenom, String email, String adresse, String tel, String image_url){
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
         this.tel = tel;
+        this.image_url = image_url;
     }
 
     public void setNom(String nom) {
@@ -34,6 +36,10 @@ public class Child implements Parcelable {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    public void setImage(String img) {
+        this.image_url = img;
     }
 
     public void setTel(String tel) {
@@ -64,14 +70,20 @@ public class Child implements Parcelable {
         return tel;
     }
 
+    public String getImage() {
+        return image_url;
+    }
+
     // Parcelling part
     public Child(Parcel in){
+        //this.image = (Photo) in.readParcelable(Photo.class.getClassLoader());
         this.id = in.readInt();
         this.nom = in.readString();
         this.prenom =  in.readString();
         this.email = in.readString();
         this.adresse =  in.readString();
         this.tel =  in.readString();
+        this.image_url = in.readString();
     }
     @Override
     public int describeContents() {
@@ -80,12 +92,14 @@ public class Child implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        //dest.writeParcelable(this.image, flags);
         dest.writeInt(this.id);
         dest.writeString(this.nom);
         dest.writeString(this.prenom);
         dest.writeString(this.email);
         dest.writeString(this.adresse);
         dest.writeString(this.tel);
+        dest.writeString(this.image_url);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

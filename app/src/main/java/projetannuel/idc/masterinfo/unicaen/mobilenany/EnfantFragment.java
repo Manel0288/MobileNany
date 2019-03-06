@@ -57,12 +57,8 @@ public class EnfantFragment extends Fragment {
     @BindView(R.id.child_password)
     TextInputLayout password;
 
-//    @BindView(R.id.add_btn)
-//    MaterialButton button;
-
     Call<Child> call;
     ApiService service;
-    //AwesomeValidation validator;
     TokenManager tokenManager;
 
     @Nullable
@@ -72,11 +68,9 @@ public class EnfantFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_enfant, container, false);
         ButterKnife.bind(this, view);
 
-        //validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
         tokenManager = TokenManager.getInstance(this.getActivity().getSharedPreferences("prefs", getContext().MODE_PRIVATE));
         service = RetrofitBuilder.createServiceWithAuth(ApiService.class,tokenManager);
 
-        //setupRules();
         return view;
     }
 
@@ -98,55 +92,42 @@ public class EnfantFragment extends Fragment {
         this.password.setError(null);
         this.telephone.setError(null);
 
-        //validator.clear();
+        call = service.addChild(nom,prenom,email,password,adresse,tel);
+        call.enqueue(new Callback<Child>() {
+            @Override
+            public void onResponse(Call<Child> call, Response<Child> response) {
+                Log.w(TAG, "onResponse " + response);
 
-        //if (validator.validate()){
-            call = service.addChild(nom,prenom,email,password,adresse,tel);
-            call.enqueue(new Callback<Child>() {
-                @Override
-                public void onResponse(Call<Child> call, Response<Child> response) {
-                    Log.w(TAG, "onResponse " + response);
+                if (response.code() == 401) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
 
-                    if (response.code() == 401) {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                        getActivity().finish();
-
-                        tokenManager.deleteToken();
-                    }
-
-                    if(response.isSuccessful()){
-                        Log.w(TAG, "onResponse: " + response.body());
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        DetailEnfantFragment detailEnfantFragment = new DetailEnfantFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("Child", response.body());
-                        detailEnfantFragment.setArguments(bundle);
-                        ft.replace(R.id.layout_container, detailEnfantFragment);
-                        ft.commit();
-                    }else{
-                        handleErrors(response.errorBody());
-                    }
-
+                    tokenManager.deleteToken();
                 }
 
-                @Override
-                public void onFailure(Call<Child> call, Throwable t) {
-                    Log.w(TAG, "onFailure " + t.getMessage());
+                if(response.isSuccessful()){
+                    Log.w(TAG, "onResponse: " + response.body());
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    AddChildPhotoFragment childPhotoFragment = new AddChildPhotoFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("Child", response.body());
+                    childPhotoFragment.setArguments(bundle);
+                    ft.replace(R.id.layout_container, childPhotoFragment);
+                    ft.commit();
+                }else{
+                    handleErrors(response.errorBody());
                 }
-            });
-        }
-    //}
 
-//    public void setupRules(){
-//        Log.w(TAG, "setupRules");
-//        validator.addValidation(getActivity(), R.id.child_nom, RegexTemplate.NOT_EMPTY, R.string.error_nom);
-//        validator.addValidation(getActivity(), R.id.child_prenom, RegexTemplate.NOT_EMPTY, R.string.error_prenom);
-//        validator.addValidation(getActivity(), R.id.child_email, Patterns.EMAIL_ADDRESS, R.string.error_email);
-//        validator.addValidation(getActivity(), R.id.child_adresse, RegexTemplate.NOT_EMPTY, R.string.error_adresse);
-//        validator.addValidation(getActivity(), R.id.child_password, "[a-zA-Z0-9]{6,}", R.string.error_password);
-//        validator.addValidation(getActivity(), R.id.child_tel, RegexTemplate.NOT_EMPTY, R.string.error_telephone);
-//    }
+            }
+
+            @Override
+            public void onFailure(Call<Child> call, Throwable t) {
+                Log.w(TAG, "onFailure " + t.getMessage());
+            }
+        });
+    }
+
 
     private void handleErrors(ResponseBody responseBody) {
         ApiError apiError = Utils.convertErrors(responseBody);

@@ -1,27 +1,20 @@
 package projetannuel.idc.masterinfo.unicaen.mobilenany;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -150,6 +143,7 @@ public class AddLieuFragment extends Fragment {
                 childId = child.getId();
             }
         }
+
         Log.w(TAG, "selectedChild: "+ selectedChild);
         call = service.addArea(label,adresse,category,this.longitude,this.latitude, childId);
         call.enqueue(new Callback<Area>() {
@@ -169,9 +163,6 @@ public class AddLieuFragment extends Fragment {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     ParentFragment parentFragment = new ParentFragment();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putParcelable("Child", response.body());
-//                    detailEnfantFragment.setArguments(bundle);
                     ft.replace(R.id.layout_container, parentFragment);
                     ft.commit();
                 }else{
@@ -231,6 +222,5 @@ public class AddLieuFragment extends Fragment {
             call = null;
         }
     }
-
 
 }

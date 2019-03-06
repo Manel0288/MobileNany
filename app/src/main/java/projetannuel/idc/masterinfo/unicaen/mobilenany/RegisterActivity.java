@@ -100,13 +100,11 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
 
-                    Log.w(TAG, "onResponse " + response);
-                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                    finish();
-
                     if(response.isSuccessful()){
                         Log.w(TAG, "onResponse: " + response.body());
-                       tokenManager.saveToken(response.body());
+                        tokenManager.saveToken(response.body());
+                        startActivity(new Intent(RegisterActivity.this, PhotoActivity.class));
+                        finish();
                     }else{
                         handleErrors(response.errorBody());
                     }

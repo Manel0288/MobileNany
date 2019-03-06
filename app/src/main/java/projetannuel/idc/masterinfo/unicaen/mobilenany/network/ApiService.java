@@ -1,20 +1,35 @@
 package projetannuel.idc.masterinfo.unicaen.mobilenany.network;
 
+import okhttp3.MultipartBody;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.AccessToken;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListAreas;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListChildren;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Photo;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiService {
     @POST("users/register")
     @FormUrlEncoded
     Call<AccessToken> register(@Field("nom") String nom, @Field("prenom") String prenom, @Field("email") String email,
                                @Field("password") String password, @Field("adresse") String adresse, @Field("tel") String tel);
+
+    @Multipart
+    @POST("users/add_photo")
+    Call<Photo>upload(@Part MultipartBody.Part file);
+
+    //Child photo profile
+    @Multipart
+    @POST("users/add_child_photo")
+    Call<Photo>uploadChildPhoto(@Part MultipartBody.Part file,@Part("id") int id);
 
     @POST("users/login")
     @FormUrlEncoded
@@ -26,6 +41,9 @@ public interface ApiService {
 
     @GET("users/children")
     Call<ListChildren> children();
+
+    @GET("areas/{child_id}/get_areas")
+    Call<ListAreas> areas(@Path("child_id") int childId);
 
     @POST("users/add_child")
     @FormUrlEncoded

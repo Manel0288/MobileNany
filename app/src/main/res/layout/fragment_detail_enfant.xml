@@ -3,64 +3,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
         <TextView
             android:id="@+id/dt_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Details de votre enfant"
-            android:textSize="30dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/dt_nom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Nom: "
-            android:textSize="16dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/dt_prenom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Prenom: "
-            android:textSize="16dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/dt_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Email: "
-            android:textSize="16dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/dt_adresse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Adresse: "
-            android:textSize="16dp"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/dt_tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Numéro de téléphone: "
-            android:textSize="16dp"
-            android:layout_gravity="center_horizontal"/>
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="lieux: "-->
-            <!--android:textSize="30dp"-->
-            <!--android:layout_gravity="center_horizontal"/>-->
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/r_view_lieux"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_lieux_btn"

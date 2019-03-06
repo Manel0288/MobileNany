@@ -1,5 +1,6 @@
 package projetannuel.idc.masterinfo.unicaen.mobilenany;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListAreas;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListChildren;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.network.ApiService;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.network.RetrofitBuilder;
@@ -48,6 +54,14 @@ public class DetailEnfantFragment extends Fragment {
     @BindView(R.id.dt_tel)
     TextView tel;
 
+    @BindView(R.id.r_view_lieux)
+    RecyclerView recyclerViewLieux;
+
+    View view;
+    Child child;
+    List<Area> areas;
+    Call<ListAreas> callArea;
+
     Call<ListChildren> call;
     ApiService service;
     TokenManager tokenManager;
@@ -56,16 +70,20 @@ public class DetailEnfantFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_enfant, container, false);
+        view = inflater.inflate(R.layout.fragment_detail_enfant, container, false);
 
         ButterKnife.bind(this, view);
 
         tokenManager = TokenManager.getInstance(this.getActivity().getSharedPreferences("prefs", getContext().MODE_PRIVATE));
         service = RetrofitBuilder.createServiceWithAuth(ApiService.class,tokenManager);
 
+        recyclerViewLieux.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerViewLieux.setHasFixedSize(true);
+
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Child child = bundle.getParcelable("Child");
+            child = bundle.getParcelable("Child");
 
             this.nom.setText(this.nom.getText() + child.getNom());
             this.prenom.setText(this.prenom.getText() + child.getPrenom());
@@ -73,6 +91,7 @@ public class DetailEnfantFragment extends Fragment {
             this.adresse.setText(this.adresse.getText() + child.getAdresse());
             this.tel.setText(this.tel.getText() + child.getTel());
         }
+        this.getLieux();
         return view;
     }
 
@@ -117,6 +136,48 @@ public class DetailEnfantFragment extends Fragment {
             }
         });
 
+    }
+
+    private void getLieux(){
+
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Chargement des données...");
+        dialog.show();
+
+        callArea = service.areas(child.getId());
+        callArea.enqueue(new Callback<ListAreas>() {
+            @Override
+            public void onResponse(Call<ListAreas> callArea, Response<ListAreas> response) {
+                dialog.dismiss();
+                Log.w(TAG, "onResponse " + response);
+
+                if (response.code() == 401) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+
+                    tokenManager.deleteToken();
+                }
+
+                if(response.isSuccessful()){
+                    Log.w(TAG, "onResponse: " + response.body());
+
+                    areas = response.body().getListLieux();
+                    LieuAdapter adapter = new LieuAdapter(getContext(), areas);
+                    recyclerViewLieux.setAdapter(adapter);
+
+                }else{
+                    Toast.makeText(getActivity(), "Erreur de recuperation des données", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<ListAreas> callArea, Throwable t) {
+                Toast.makeText(getActivity(), "childId "+child.getId(), Toast.LENGTH_SHORT).show();
+                Log.w(TAG, "onFailure " + t.getMessage());
+            }
+        });
     }
 
 
