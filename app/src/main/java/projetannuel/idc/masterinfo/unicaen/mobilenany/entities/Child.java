@@ -38,7 +38,7 @@ public class Child implements Parcelable {
         this.adresse = adresse;
     }
 
-    public void setImage(String img) {
+    public void setImageUrl(String img) {
         this.image_url = img;
     }
 
@@ -70,7 +70,7 @@ public class Child implements Parcelable {
         return tel;
     }
 
-    public String getImage() {
+    public String getImageUrl() {
         return image_url;
     }
 

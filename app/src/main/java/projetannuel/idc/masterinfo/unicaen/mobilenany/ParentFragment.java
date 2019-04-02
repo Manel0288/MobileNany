@@ -47,7 +47,7 @@ public class ParentFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_parent, container, false);
 
         //ButterKnife.bind(this, view);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.r_view_parent);
 
         children = new ArrayList<>();
 

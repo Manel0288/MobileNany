@@ -15,4 +15,7 @@
     <string name="API_KEY">AIzaSyA7CSZgCtdb2pChhR_2ia8-8aVNqr8MDm4</string>
     <string name="category1">Autorisé</string>
     <string name="category2">Non Autorisé</string>
+
+    <string name="url">http://10.188.109.155:8005/mes_images/</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

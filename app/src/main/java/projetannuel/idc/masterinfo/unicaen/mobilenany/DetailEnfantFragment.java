@@ -2,14 +2,22 @@ package projetannuel.idc.masterinfo.unicaen.mobilenany;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ChildAndHisAreas;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListAreas;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListChildren;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.network.ApiService;
@@ -53,6 +62,9 @@ public class DetailEnfantFragment extends Fragment {
 
     @BindView(R.id.dt_tel)
     TextView tel;
+
+    @BindView(R.id.dt_img_profile)
+    ImageView profile;
 
     @BindView(R.id.r_view_lieux)
     RecyclerView recyclerViewLieux;
@@ -90,9 +102,31 @@ public class DetailEnfantFragment extends Fragment {
             this.email.setText(this.email.getText() + child.getEmail());
             this.adresse.setText(this.adresse.getText() + child.getAdresse());
             this.tel.setText(this.tel.getText() + child.getTel());
+            if (child.getImageUrl() != null)
+            {
+                String url = this.getImageCompleteUrl(child.getImageUrl());
+                Toast.makeText(getContext(), "url: "+url,Toast.LENGTH_LONG).show();
+
+                Picasso.with(getContext())
+                        .load(url)
+                        .into(this.profile);
+            }
+            else
+            {
+                Picasso.with(getContext()).load(R.drawable.ic_add_child).
+                        into(this.profile);
+            }
         }
         this.getLieux();
         return view;
+    }
+
+    private String getImageCompleteUrl(String imageUrl) {
+        String [] imgFolder = imageUrl.split("\\.");
+
+        String path = "http://192.168.0.17:8005/mes_images/" + imgFolder[0]+ "/" +imageUrl;
+        Log.w("----RecyclerViewAdapter", "url: " +path );
+        return path;
     }
 
     @OnClick(R.id.add_lieux_btn)
@@ -136,6 +170,21 @@ public class DetailEnfantFragment extends Fragment {
             }
         });
 
+    }
+
+    @OnClick(R.id.go_to_map)
+    void goToMap(){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ChildMapFragment childMapFragment = new ChildMapFragment();
+
+        Bundle bundle = new Bundle();
+        Area[] areasArray = areas.toArray(new Area[areas.size()]);
+        ChildAndHisAreas childAndHisAreas = new ChildAndHisAreas(child, areasArray);
+        bundle.putParcelable("ChildAndAreas", childAndHisAreas);
+        childMapFragment.setArguments(bundle);
+        ft.replace(R.id.layout_container, childMapFragment);
+        ft.commit();
     }
 
     private void getLieux(){

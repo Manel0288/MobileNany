@@ -54,7 +54,7 @@ import retrofit2.Response;
 public class AddChildPhotoFragment extends Fragment {
 
     private static final String TAG = "AddChildPhotoFragment";
-    @BindView(R.id.child_img)
+    @BindView(R.id.child_item_img)
     ImageView childImg;
 
     @BindView(R.id.child_btn_validate)
@@ -134,7 +134,7 @@ public class AddChildPhotoFragment extends Fragment {
                     FragmentTransaction ft = fm.beginTransaction();
                     DetailEnfantFragment detailEnfantFragment = new DetailEnfantFragment();
                     Bundle bundle = new Bundle();
-                    child.setImage(response.body());
+                    child.setImageUrl(response.body().getImage());
                     bundle.putParcelable("Child", child);
                     detailEnfantFragment.setArguments(bundle);
                     ft.replace(R.id.layout_container, detailEnfantFragment);

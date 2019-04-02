@@ -110,9 +110,10 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_validate)
-    void login(){
+    void valider(){
         //validator.clear();
         File file = new File(imagePath);
+        Toast.makeText(this, "URL : "+imagePath,Toast.LENGTH_LONG).show();
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image_url", file.getName(), requestBody);
 

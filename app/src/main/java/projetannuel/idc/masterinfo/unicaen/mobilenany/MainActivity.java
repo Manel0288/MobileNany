@@ -81,9 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        AddChildPhotoFragment childPhotoFragment = new AddChildPhotoFragment();
-//        childPhotoFragment.onActivityResult(requestCode,resultCode,data);
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == 0) {
+//            ChildMapFragment childMapFragment = new ChildMapFragment();
+//            childMapFragment.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//        }
 //    }
+
 }
