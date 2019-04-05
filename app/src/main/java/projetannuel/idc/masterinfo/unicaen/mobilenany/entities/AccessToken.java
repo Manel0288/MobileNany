@@ -13,6 +13,18 @@ public class AccessToken {
     @Json(name ="refresh_token")
     String refreshToken;
 
+    @Json(name ="nom")
+    String nom;
+
+    @Json(name ="role")
+    String role;
+
+    @Json(name ="email")
+    String email;
+
+    @Json(name ="image_url")
+    String imageUrl;
+
 
     public String getTokenType() {
         return tokenType;
@@ -30,6 +42,22 @@ public class AccessToken {
         return refreshToken;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
@@ -44,5 +72,21 @@ public class AccessToken {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setImageUrl(String url) {
+        this.imageUrl = url;
     }
 }

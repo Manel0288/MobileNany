@@ -1,9 +1,11 @@
 package projetannuel.idc.masterinfo.unicaen.mobilenany;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +53,12 @@ public class AddLieuFragment extends Fragment {
     @BindView(R.id.adresse)
     TextInputLayout adresse;
 
+    @BindView(R.id.time_from)
+    TextInputLayout timeFrom;
+
+    @BindView(R.id.time_to)
+    TextInputLayout timeTo;
+
     @BindView(R.id.category)
     RadioGroup category;
 
@@ -64,6 +75,11 @@ public class AddLieuFragment extends Fragment {
     Call<Area> call;
     ApiService service;
     TokenManager tokenManager;
+    Calendar calendar;
+    int currentHour;
+    int currentMinute;
+    String toTime;
+    String fromTime;
 
     @Nullable
     @Override
@@ -76,6 +92,10 @@ public class AddLieuFragment extends Fragment {
         service = RetrofitBuilder.createServiceWithAuth(ApiService.class,tokenManager);
 
         radioButton = (RadioButton)view.findViewById(category.getCheckedRadioButtonId());
+
+        calendar = Calendar.getInstance();
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        currentMinute = calendar.get(Calendar.MINUTE);
 
         this.addItemsOnListEnfants();
         return view;
@@ -98,11 +118,9 @@ public class AddLieuFragment extends Fragment {
 
         try {
             // May throw an IOException
-            Toast.makeText(this.getActivity(), "Exzcution de la fonction de geocoder", Toast.LENGTH_LONG).show();
             address = coder.getFromLocationName(adr, 1);
             if (address == null) {
                 Log.w(TAG, "----------------geocoder not working----------------------: " + adr);
-                Toast.makeText(this.getActivity(), "Votre adresse n'est pas bonne. Reésseyez!", Toast.LENGTH_LONG).show();
             }
 
             Address location = address.get(0);
@@ -122,13 +140,43 @@ public class AddLieuFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.time_from_input)
+    void setFromTime(TextInputEditText fromInput){
+        fromInput.setInputType(InputType.TYPE_NULL);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                fromTime = String.format("%02d:%02d", hourOfDay, minutes);
+                fromInput.setText(fromTime);
+            }
+        }, currentHour, currentMinute, true);
+
+        timePickerDialog.show();
+    }
+
+    @OnClick(R.id.time_to_input)
+    void setToTime(TextInputEditText toInput){
+        toInput.setInputType(InputType.TYPE_NULL);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                toTime = String.format("%02d:%02d", hourOfDay, minutes);
+                toInput.setText(toTime);
+            }
+        }, currentHour, currentMinute, true);
+
+        timePickerDialog.show();
+    }
+
     @OnClick(R.id.add_lieu_btn)
-    void addChild(){
+    void addLieu(){
 
         String label = this.label.getEditText().getText().toString();
         String adresse =this.adresse.getEditText().getText().toString();
         String category = this.selectedCategory;
-        selectedCategory = this.radioButton.getText().toString();
+        if (selectedCategory == ""){
+            selectedCategory = this.radioButton.getText().toString();
+        }
 
         //rcuperation des coordonnées ici
         this.getLocation();
@@ -145,7 +193,7 @@ public class AddLieuFragment extends Fragment {
         }
 
         Log.w(TAG, "selectedChild: "+ selectedChild);
-        call = service.addArea(label,adresse,category,this.longitude,this.latitude, childId);
+        call = service.addArea(label,adresse,category,this.longitude,this.latitude, childId, fromTime, toTime);
         call.enqueue(new Callback<Area>() {
             @Override
             public void onResponse(Call<Area> call, Response<Area> response) {
@@ -189,6 +237,13 @@ public class AddLieuFragment extends Fragment {
 
             if(error.getKey().equals("adresse")){
                 this.adresse.setError(error.getValue().get(0));
+            }
+
+            if(error.getKey().equals("from")){
+                this.timeFrom.setError(error.getValue().get(0));
+            }
+            if(error.getKey().equals("to")){
+                this.timeTo.setError(error.getValue().get(0));
             }
 
         }

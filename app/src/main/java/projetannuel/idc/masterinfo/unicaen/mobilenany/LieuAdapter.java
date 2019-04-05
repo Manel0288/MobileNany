@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
-import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
 
 public class LieuAdapter extends RecyclerView.Adapter<LieuAdapter.MyViewHolder>{
 

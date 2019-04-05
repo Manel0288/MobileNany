@@ -2,6 +2,7 @@ package projetannuel.idc.masterinfo.unicaen.mobilenany;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,6 +53,8 @@ import com.google.android.gms.tasks.Task;
 
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,7 +63,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ChildAndHisAreas;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ChildLocation;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.network.ApiService;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.network.RetrofitBuilder;
 import retrofit2.Call;
@@ -77,7 +82,7 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
     private static final int REQUEST_CODE = 1;
     private static final int GEOFENCE_RADIUS = 500;
     //in milli seconds
-    private static final String GEOFENCE_ACTION_RECEIVER = "projetannuel.idc.masterinfo.unicaen.mobilenany.ACTION_RECEIVE_GEOFENCE";
+    //private static final String GEOFENCE_ACTION_RECEIVER = "projetannuel.idc.masterinfo.unicaen.mobilenany.ACTION_RECEIVE_GEOFENCE";
     PendingIntent pendingIntent;
     private Location currentLocation;
     private LocationRequest locationRequest;
@@ -85,7 +90,6 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_REQUEST_CODE = 101;
     private SupportMapFragment mapFragment;
-    //Child child;
     private ChildAndHisAreas childAndHisAreas;
     LocationManager locationManager;
     GoogleMap map;
@@ -93,9 +97,12 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
     MarkerOptions options;
     ApiService service;
     TokenManager tokenManager;
+    Call<ChildLocation> call;
+    ChildLocation childLocation;
+    Timer timer;
 
     // Deuxieme essai
-    private FusedLocationProviderApi fusedLocationProviderApi;
+    //private FusedLocationProviderApi fusedLocationProviderApi;
     private GoogleApiClient googleApiClient;
     private GeofencingClient geofencingClient;
 
@@ -109,6 +116,7 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
 
         tokenManager = TokenManager.getInstance(this.getActivity().getSharedPreferences("prefs", getContext().MODE_PRIVATE));
         service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
+
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -169,6 +177,10 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 currentLocation = locationResult.getLastLocation();
+                // stocker la location dans la bd
+                if (!tokenManager.getToken().getRole().equals("Parent")){
+                    addChildLocation();
+                }
                Log.w(TAG, "---------Current Location--------- "+ currentLocation.getLatitude() +" "+currentLocation.getLongitude());
 
             }
@@ -182,12 +194,28 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
         options = new MarkerOptions();
         map.getUiSettings().setZoomControlsEnabled(true);
         this.addMarkers();
-        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        options.position(latLng)
-                .title("Current Location")
-                .snippet("Hello")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        LatLng latLng;
+        if (!tokenManager.getToken().getRole().equals("Parent")) {
+            latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            options.position(latLng)
+                    .title("Child Current Location")
+                    .snippet("Hello")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        }else{
+            getChildLocation();
+            timer = new Timer ();
+            TimerTask hourlyTask = new TimerTask () {
+                @Override
+                public void run () {
+                    Log.w(TAG, "--------------Dans le timer TimerTask ----------------- ");
+                    getChildLocation();
+                }
+            };
+            timer.schedule (hourlyTask, 0l, 1000*60);
+            //latLng = new LatLng(Double.valueOf(childLocation.getLatitude()), Double.valueOf(childLocation.getLongitude()));
+        }
+
         //Adding the created the marker on the map
         marker = map.addMarker(options);
 
@@ -195,26 +223,27 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
 
     @Override
     public void onLocationChanged(Location location) {
-        if (location != null) {
-            currentLocation = location;
+        if (!tokenManager.getToken().getRole().equals("Parent")) {
+            if (location != null) {
+                currentLocation = location;
 
-            Log.i(TAG, "Coord Changed : latitude : " + location.getLatitude() + " logitude : " + location.getLongitude());
+                Log.i(TAG, "Coord Changed : latitude : " + location.getLatitude() + " logitude : " + location.getLongitude());
 
-            if (map == null){
-                mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.child_map);
-                mapFragment.getMapAsync(ChildMapFragment.this);
-            }else {
-                //Toast.makeText(getActivity(), "location has Changed ", Toast.LENGTH_SHORT).show();
-                LatLng myCoords = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                LatLngBounds bounds = this.map.getProjection().getVisibleRegion().latLngBounds;
-                marker.setPosition(myCoords);
-                if (!bounds.contains(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))) {
-                    //Move the camera to the user's location if they are off-screen!
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(myCoords, 15));
+                if (map == null) {
+                    mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.child_map);
+                    mapFragment.getMapAsync(ChildMapFragment.this);
+                } else {
+                    LatLng myCoords = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                    LatLngBounds bounds = this.map.getProjection().getVisibleRegion().latLngBounds;
+                    marker.setPosition(myCoords);
+                    if (!bounds.contains(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))) {
+                        //Move the camera to the user's location if they are off-screen!
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(myCoords, 15));
+                    }
                 }
+            } else {
+                Log.i(TAG, "--------The LOCATION IS NULL ");
             }
-        }else{
-            Log.i(TAG, "--------The LOCATION IS NULL ");
         }
     }
 
@@ -252,6 +281,87 @@ public class ChildMapFragment extends Fragment implements OnMapReadyCallback, Lo
                 break;
 
         }
+    }
+
+    private void addChildLocation(){
+        String longitude = String.valueOf(currentLocation.getLongitude());
+        String latitude = String.valueOf(currentLocation.getLatitude());
+
+        call = service.addChildLocation(longitude, latitude);
+        call.enqueue(new Callback<ChildLocation>() {
+            @Override
+            public void onResponse(Call<ChildLocation> call, Response<ChildLocation> response) {
+                Log.w(TAG, "onResponse " + response);
+
+                if (response.code() == 401) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+
+                    tokenManager.deleteToken();
+                }
+
+                if(response.isSuccessful()){
+                    Log.w(TAG, "onResponse: " + response.body());
+                    Toast.makeText(getActivity(), "location added", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(getActivity(), "Erreur de recuperation des données", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<ChildLocation> call, Throwable t) {
+                Log.w(TAG, "onFailure " + t.getMessage());
+            }
+        });
+    }
+
+    private void getChildLocation(){
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Chargement des données...");
+        dialog.show();
+
+        call = service.getChildLastLocation(childAndHisAreas.getChild().getId());
+        call.enqueue(new Callback<ChildLocation>() {
+            @Override
+            public void onResponse(Call<ChildLocation> call, Response<ChildLocation> response) {
+                dialog.dismiss();
+                Log.w(TAG, "onResponse " + response);
+
+                if (response.code() == 401) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+
+                    tokenManager.deleteToken();
+                }
+
+                if(response.isSuccessful()){
+                    Log.w(TAG, "onResponse: " + response.body());
+                    LatLng latLng;
+                    if (childLocation == null || childLocation != response.body()) {
+                        childLocation = response.body();
+                        latLng = new LatLng(Double.valueOf(childLocation.getLatitude()), Double.valueOf(childLocation.getLongitude()));
+                        options.position(latLng)
+                                .title("Child Current Location")
+                                .snippet("Hello")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                        map.addMarker(options);
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Erreur de recuperation des données", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+
+            @Override
+            public void onFailure(Call<ChildLocation> call, Throwable t) {
+                Log.w(TAG, "onFailure " + t.getMessage());
+            }
+        });
     }
 
     private void buildLocationRequest(){

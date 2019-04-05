@@ -12,13 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +63,9 @@ public class DetailEnfantFragment extends Fragment {
     @BindView(R.id.r_view_lieux)
     RecyclerView recyclerViewLieux;
 
+    @BindView(R.id.add_lieux_btn)
+    MaterialButton addArea;
+
     View view;
     Child child;
     List<Area> areas;
@@ -92,6 +89,10 @@ public class DetailEnfantFragment extends Fragment {
         recyclerViewLieux.setLayoutManager(new GridLayoutManager(getActivity(),2));
         recyclerViewLieux.setHasFixedSize(true);
 
+        //hide add_area button
+        if (tokenManager.getToken().getRole().equals("Enfant")){
+            addArea.setVisibility(View.GONE);
+        }
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -104,8 +105,7 @@ public class DetailEnfantFragment extends Fragment {
             this.tel.setText(this.tel.getText() + child.getTel());
             if (child.getImageUrl() != null)
             {
-                String url = this.getImageCompleteUrl(child.getImageUrl());
-                Toast.makeText(getContext(), "url: "+url,Toast.LENGTH_LONG).show();
+                String url = Utils.getImageCompleteUrl(child.getImageUrl());
 
                 Picasso.with(getContext())
                         .load(url)
@@ -119,14 +119,6 @@ public class DetailEnfantFragment extends Fragment {
         }
         this.getLieux();
         return view;
-    }
-
-    private String getImageCompleteUrl(String imageUrl) {
-        String [] imgFolder = imageUrl.split("\\.");
-
-        String path = "http://192.168.0.17:8005/mes_images/" + imgFolder[0]+ "/" +imageUrl;
-        Log.w("----RecyclerViewAdapter", "url: " +path );
-        return path;
     }
 
     @OnClick(R.id.add_lieux_btn)
@@ -157,8 +149,6 @@ public class DetailEnfantFragment extends Fragment {
                     addLieuFragment.setArguments(bundle);
                     ft.replace(R.id.layout_container, addLieuFragment);
                     ft.commit();
-                }else{
-                    //erreur
                 }
 
             }

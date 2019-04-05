@@ -59,24 +59,43 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/category"-->
-            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Categorie">-->
 
-            <!--<com.google.android.material.textfield.TextInputEditText-->
-                <!--android:layout_width="300dp"-->
-                <!--android:inputType="text"-->
-                <!--android:drawableStart="@drawable/ic_category"-->
-                <!--android:drawableLeft="@drawable/ic_category"-->
-                <!--android:maxLines="1"-->
-                <!--android:drawablePadding="10dp"-->
-                <!--android:layout_height="wrap_content"/>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/time_from"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Choisir l'heure de debut">
 
-           <!---->
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
+            <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/time_from_input"
+            android:layout_width="300dp"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_time_black"
+            android:drawableLeft="@drawable/ic_time_black"
+            android:maxLines="1"
+            android:drawablePadding="10dp"
+            android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/time_to"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Choisir l'heure de fin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/time_to_input"
+                android:layout_width="300dp"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_time_black"
+                android:drawableLeft="@drawable/ic_time_black"
+                android:maxLines="1"
+                android:drawablePadding="10dp"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -108,43 +127,6 @@
             android:id="@+id/liste_enfants"
             android:layout_width="300dp"
             android:layout_height="wrap_content" />
-
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/longitude"-->
-            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Longitude">-->
-
-            <!--<com.google.android.material.textfield.TextInputEditText-->
-                <!--android:layout_width="300dp"-->
-                <!--android:inputType="numberDecimal|numberSigned"-->
-                <!--android:drawableStart="@drawable/ic_add_location"-->
-                <!--android:drawableLeft="@drawable/ic_add_location"-->
-                <!--android:maxLines="1"-->
-                <!--android:drawablePadding="10dp"-->
-                <!--android:layout_height="wrap_content"/>-->
-
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
-
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/latitude"-->
-            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Latitude">-->
-
-            <!--<com.google.android.material.textfield.TextInputEditText-->
-                <!--android:layout_width="300dp"-->
-                <!--android:drawableStart="@drawable/ic_add_location"-->
-                <!--android:drawableLeft="@drawable/ic_add_location"-->
-                <!--android:inputType="numberDecimal|numberSigned"-->
-                <!--android:maxLines="1"-->
-                <!--android:drawablePadding="10dp"-->
-                <!--android:imeOptions="actionNext"-->
-                <!--android:layout_height="wrap_content"/>-->
-
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_lieu_btn"

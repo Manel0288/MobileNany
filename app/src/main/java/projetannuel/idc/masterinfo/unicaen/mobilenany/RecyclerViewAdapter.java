@@ -78,9 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String imgUrl = (String)child.getImageUrl();
             String [] imgFolder = imgUrl.split("\\.");
 
-            String path = "http://192.168.0.17:8005/mes_images/" + imgFolder[0]+ "/" +imgUrl;
+            String path = Utils.PATH_URL+ "/" + imgFolder[0]+ "/" +imgUrl;
             Log.w("----RecyclerViewAdapter", "url: " +path );
-            //Toast.makeText(holder.profile.getContext(), "url: "+path,Toast.LENGTH_LONG).show();
+
             Transformation transformation = new RoundedTransformationBuilder()
                     .borderColor(Color.BLACK)
                     .borderWidthDp(3)

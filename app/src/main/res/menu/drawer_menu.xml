@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_parent"
             android:title="Espace Enfant"/>
 
-        <item android:id="@+id/nav_ch_last_position"
-            android:icon="@drawable/ic_enfant"
-            android:title="Lieux Visites"/>
+        <!--<item android:id="@+id/nav_ch_last_position"-->
+            <!--android:icon="@drawable/ic_enfant"-->
+            <!--android:title="Lieux Visites"/>-->
 
         <item android:id="@+id/nav_add_child"
             android:icon="@drawable/ic_add_child"
@@ -18,6 +18,10 @@
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="Profil"/>
+
+        <item android:id="@+id/nav_child_info"
+            android:icon="@drawable/ic_enfant"
+            android:title="Mes info"/>
 
         <item android:id="@+id/nav_deconnexion"
             android:icon="@drawable/ic_deconnexion"

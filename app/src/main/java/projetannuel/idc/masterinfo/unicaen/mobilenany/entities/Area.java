@@ -11,6 +11,8 @@ public class Area implements Parcelable {
     private String category;
     private String longitude;
     private String latitude;
+    private String from;
+    private String to;
 
     protected Area(Parcel in) {
         id = in.readInt();
@@ -20,6 +22,8 @@ public class Area implements Parcelable {
         category = in.readString();
         longitude = in.readString();
         latitude = in.readString();
+        from = in.readString();
+        to = in.readString();
     }
 
     public static final Creator<Area> CREATOR = new Creator<Area>() {
@@ -104,5 +108,7 @@ public class Area implements Parcelable {
         parcel.writeString(category);
         parcel.writeString(longitude);
         parcel.writeString(latitude);
+        parcel.writeString(from);
+        parcel.writeString(to);
     }
 }

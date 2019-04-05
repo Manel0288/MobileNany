@@ -31,9 +31,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-
-//    Button inscription;
-//    Button connexion;
     private static final String TAG = "LoginActivity";
       @BindView(R.id.login_email)
       TextInputLayout email;
@@ -43,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
       ApiService service;
       TokenManager tokenManager;
+      AccessToken accessToken;
       AwesomeValidation validator;
       Call<AccessToken> call;
 
@@ -94,7 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
 
                         tokenManager.saveToken(response.body());
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        tokenManager.saveUserInfo(response.body());
+                        //accessToken = tokenManager.getToken();
+                        //if (accessToken.getRole().equals("Parent")){
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
 
                     } else {

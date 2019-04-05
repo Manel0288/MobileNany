@@ -1,9 +1,12 @@
 package projetannuel.idc.masterinfo.unicaen.mobilenany.network;
 
+import java.lang.reflect.Array;
+
 import okhttp3.MultipartBody;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.AccessToken;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Area;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Child;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ChildLocation;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListAreas;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.ListChildren;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.Photo;
@@ -50,10 +53,22 @@ public interface ApiService {
     Call<Child> addChild(@Field("nom") String nom, @Field("prenom") String prenom, @Field("email") String email,
                          @Field("password") String password, @Field("adresse") String adresse, @Field("tel") String tel);
 
+    @POST("users/add_child_location")
+    @FormUrlEncoded
+    Call<ChildLocation> addChildLocation(@Field("longitude") String longitude, @Field("latitude") String latitude);
+
     @POST("areas/add_area")
     @FormUrlEncoded
     Call<Area> addArea(@Field("label") String label, @Field("adresse") String adresse, @Field("category") String category,
-                       @Field("longitude") String longitude, @Field("latitude") String latitude, @Field("child_id") int childId);
+                       @Field("longitude") String longitude, @Field("latitude") String latitude, @Field("child_id") int childId,
+                       @Field("from") String from, @Field("to") String to);
 
+    @GET("users/child_user")
+    Call<Child> getChild();
 
+    @GET("users/{child_id}/child_last_location")
+    Call<ChildLocation> getChildLastLocation(@Path("child_id") int childId);
+
+    @GET("users/logout")
+    Call<Object> logout();
 }

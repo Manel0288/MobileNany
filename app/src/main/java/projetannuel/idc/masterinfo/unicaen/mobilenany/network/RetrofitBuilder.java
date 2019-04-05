@@ -10,13 +10,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.TokenManager;
+import projetannuel.idc.masterinfo.unicaen.mobilenany.Utils;
 import projetannuel.idc.masterinfo.unicaen.mobilenany.entities.CustomeAuthenticator;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitBuilder {
 
-    private static final String BASE_URL = "http://192.168.0.17:8005/api/";//10.188.109.155 192.168.0.17 10.224.71.150 192.168.43.138
+
     private static final OkHttpClient client = buildClient();
 
     private static final Retrofit retrofit = buildRetrofit(client);
@@ -49,7 +50,7 @@ public class RetrofitBuilder {
     private static Retrofit buildRetrofit(OkHttpClient client){
 
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Utils.BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
